@@ -1,7 +1,11 @@
 require 'spec_helper'
 
 describe User do
-  subject(:u){ User.create!(:username => "Username", :password => "password") }
+  subject(:u){ FactoryGirl.create(:user) }
+
+  describe "associations" do
+    it { should have_many(:subs) }
+  end
 
   describe "username" do
     it "should be mass assignable" do
@@ -15,11 +19,13 @@ describe User do
     end
 
     it "should be readable" do
-      expect(User.new(:password => "password").password).to eq("password")
+      expect(FactoryGirl.build(:user, :password => "password").password)
+                        .to eq("password")
     end
 
     it "should be at least 6 characters" do
-      expect(User.new(:password => "pass")).to have(1).error_on(:password)
+      expect(FactoryGirl.build(:user, :password => "pass"))
+                        .to have(1).error_on(:password)
     end
 
     it "should not be stored in the database" do
@@ -42,7 +48,7 @@ describe User do
     end
 
     it "should be set before validation" do
-      expect(User.new).to have(:no).errors_on(:session_token)
+      expect(u).to have(:no).errors_on(:session_token)
     end
   end
 
@@ -60,7 +66,7 @@ describe User do
 
   describe "#is_password?" do
     it "should confirm the correct password" do
-      expect(u.is_password?("password")).to be_true
+      expect(u.is_password?(u.password)).to be_true
     end
 
     it "should reject the incorrect password" do

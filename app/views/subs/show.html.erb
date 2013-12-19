@@ -1,0 +1,8 @@
+<h2><%= @sub.name %></h2>
+<%= link_to "<- Sandwiches", subs_url %>
+<br><br>
+
+<% if is_moderator? %>
+	<%= link_to "Edit Sandwich", edit_sub_url(@sub) %>
+	<%= button_to "Eat Sandwich", sub_url(@sub), :method => :delete %>
+<% end %>

@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   before_validation :reset_session_token, :on => :create
 
+  has_many :subs, :foreign_key => :moderator_id
+
   def self.find_by_credentials(params)
     user = User.find_by_username(params[:username])
     return user if user && user.is_password?(params[:password])

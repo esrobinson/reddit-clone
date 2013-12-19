@@ -1,0 +1,9 @@
+<h2>Sandwiches</h2>
+
+<ul>
+	<% @subs.each do |sub| %>
+	<li><%= link_to sub.name, sub_url(sub) %></li>
+	<% end %>
+</ul>
+
+<%= link_to "Make a Sandwich", new_sub_url %>

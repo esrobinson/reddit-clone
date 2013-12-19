@@ -1,0 +1,20 @@
+<form action="<%= @action_url %>" method="POST">
+	<input type="hidden"
+				 name="authenticity_token"
+				 value="<%= form_authenticity_token %>">
+
+	<% if @sub.persisted? %>
+		<input type="hidden" name="_method" value="PUT">
+	<% end %>
+	<label for="sub_name">Sandwich Name</label>
+	<input type="text" id="sub_name" name="sub[name]" value="<%= @sub.name %>">
+	<label for="sub_moderator">Sandwich Moderator</label>
+	<select id="sub_moderator" name="sub[moderator_id]">
+		<% @users.each do |user| %>
+		<option value="<%= user.id%>" <%= "selected" if user == @sub.moderator %>>
+			<%= user.username %>
+		</option>
+		<% end %>
+	</select>
+	<input type="submit" value="Create Sandwich">
+</form>

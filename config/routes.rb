@@ -1,10 +1,7 @@
 RedditClone::Application.routes.draw do
-  get "sessions/new"
-
-  get "sessions/create"
-
-  get "sessions/destroy"
+  root :to => 'subs#index'
 
   resource :session, :only => [:new, :create, :destroy]
   resources :users, :only => [:new, :create]
+  resources :subs
 end

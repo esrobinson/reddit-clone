@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131219185901) do
+ActiveRecord::Schema.define(:version => 20131219214635) do
+
+  create_table "subs", :force => true do |t|
+    t.string   "name",         :null => false
+    t.integer  "moderator_id", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "subs", ["name"], :name => "index_subs_on_name", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "username",        :null => false
