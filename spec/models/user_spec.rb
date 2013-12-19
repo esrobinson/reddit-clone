@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  subject(:u){ User.create(:username => "Username", :password => "password")}
+  subject(:u){ User.create!(:username => "Username", :password => "password") }
 
   describe "username" do
     it "should be mass assignable" do
@@ -20,6 +20,29 @@ describe User do
 
     it "should be at least 6 characters" do
       expect(User.new(:password => "pass")).to have(1).error_on(:password)
+    end
+
+    it "should not be stored in the database" do
+      u
+      expect(User.first.password).to be_nil
+    end
+  end
+
+  describe "password_digest" do
+    it "should not be mass assignable" do
+      expect{ User.new(:password_digest => "a") }
+          .to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+    end
+  end
+
+  describe "session_token" do
+    it "should not be mass assignable" do
+      expect{ User.new(:session_token => "test") }
+          .to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+    end
+
+    it "should be set before validation" do
+      expect(User.new).to have(:no).errors_on(:session_token)
     end
   end
 
@@ -42,24 +65,6 @@ describe User do
 
     it "should reject the incorrect password" do
       expect(u.is_password?("blah")).to be_false
-    end
-  end
-
-  describe "password_digest" do
-    it "should not be mass assignable" do
-      expect{ User.new(:password_digest => "a") }
-          .to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-    end
-  end
-
-  describe "session_token" do
-    it "should not be mass assignable" do
-      expect{ User.new(:session_token => "test") }
-          .to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-    end
-
-    it "should be set before validation" do
-      expect(User.new).to have(:no).errors_on(:session_token)
     end
   end
 
