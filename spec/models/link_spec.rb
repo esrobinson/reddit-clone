@@ -23,6 +23,7 @@ describe Link do
     it { should have_many(:comments) }
   end
 
+
   describe "#comments_by_parent_id" do
     context "when there are no comments" do
       it "should return an empty hash" do
