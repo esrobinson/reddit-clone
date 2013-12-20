@@ -6,10 +6,20 @@ class SubsController < ApplicationController
 
   def create
     @sub = Sub.new(params[:sub])
+    links = params[:link].values.reject{ |value| value["url"].empty? }
+    @sub.links.new(links)
+    @sub.links.each { |link| link.poster = current_user }
+
     if @sub.save
       redirect_to sub_url(@sub)
     else
-      flash.now[:errors] = @user.errors.full_messages
+      flash.now[:errors] = []
+      flash.now[:errors].concat(@sub.errors.full_messages)
+
+      @sub.links.each do |link|
+        flash.now[:errors].concat(@link.errors.full_messages)
+      end
+
       render :new
     end
   end
@@ -39,7 +49,7 @@ class SubsController < ApplicationController
 
   def show
     @sub = Sub.find(params[:id])
-    # @links = Sub.links
+    @links = @sub.links
     render :show
   end
 
@@ -48,7 +58,7 @@ class SubsController < ApplicationController
     if @sub.update_attributes(params[:sub])
       redirect_to sub_url(@sub)
     else
-      flash.now[:errors] = @user.errors.full_messages
+      flash.now[:errors] = @sub.errors.full_messages
       render :edit
     end
   end

@@ -6,8 +6,11 @@
 	<% if @sub.persisted? %>
 		<input type="hidden" name="_method" value="PUT">
 	<% end %>
+
+	<br>
 	<label for="sub_name">Sandwich Name</label>
 	<input type="text" id="sub_name" name="sub[name]" value="<%= @sub.name %>">
+	<br>
 	<label for="sub_moderator">Sandwich Moderator</label>
 	<select id="sub_moderator" name="sub[moderator_id]">
 		<% @users.each do |user| %>
@@ -16,5 +19,25 @@
 		</option>
 		<% end %>
 	</select>
+
+	<% unless @sub.persisted? %>
+	<h3>Create Some Sausages</h3>
+		<ul>
+			<% 5.times do |i| %>
+			<li>
+				<label for="link_<%= i %>_title">Title</label>
+				<input type="text" name="link[<%= i %>][title]" id="link_<%= i %>_title">
+				<br>
+				<label for="link_<%= i %>_url">URL</label>
+				<input type="text" name="link[<%= i %>][url]" id="link_<%= i %>_url">
+				<br>
+				<label for="link_<%= i %>_body">Body</label>
+				<textarea name="link[<%= i %>][body]" id="link_<%= i %>_body"></textarea>
+			</li>
+			<br>
+			<% end %>
+		</ul>
+	<% end %>
+
 	<input type="submit" value="Create Sandwich">
 </form>

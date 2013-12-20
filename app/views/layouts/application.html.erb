@@ -14,13 +14,10 @@
 		<%= link_to "Sign In", new_session_url %>
 		<%= link_to "Sign Up", new_user_url %>
 	<% end %>
-
 	<% flash[:errors] && flash[:errors].each do |error|%>
 	<%= error %>
+
 	<% end %>
-
-
 <%= yield %>
-
 </body>
 </html>

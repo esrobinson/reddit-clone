@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :integer          not null, primary key
+#  username        :string(255)      not null
+#  password_digest :string(255)      not null
+#  session_token   :string(255)      not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 require 'spec_helper'
 
 describe User do
@@ -5,6 +17,8 @@ describe User do
 
   describe "associations" do
     it { should have_many(:subs) }
+    it { should have_many(:links) }
+    it { should have_many(:comments) }
   end
 
   describe "username" do

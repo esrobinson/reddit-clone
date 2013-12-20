@@ -1,0 +1,36 @@
+<form action="<%= @action_url %>" method="POST">
+	<input type="hidden"
+				 name="authenticity_token"
+				 value="<%= form_authenticity_token %>">
+
+	<% if @link.persisted? %>
+		<input type="hidden" name="_method" value="PUT">
+	<% end %>
+
+	<label for="link_title">Title</label>
+	<input type="text" name="link[title]" id="link_title" value=<%= @link.title %>>
+	<br>
+
+	<label for="link_url">URL</label>
+	<input type="text" name="link[url]" id="link_url" value=<%= @link.url %>>
+	<br>
+
+	<label for="link_body">Body</label>
+	<textarea name="link[body]" id="link_body"><%= @link.body %></textarea>
+	<br>
+
+	<input type="hidden" name="link[sub_ids][]" value="">
+
+	<h4>Sandwiches</h4>
+	<% @subs.each do |sub| %>
+		<input type="checkbox"
+					 name="link[sub_ids][]"
+					 id="sub_<%= sub.id %>"
+					 value="<%= sub.id %>"
+					 <%= "checked" if @current_subs.include?(sub) %>>
+		<label for="sub_<%= sub.id %>"><%= sub.name %></label>
+		<br>
+	<% end %>
+	<br>
+	<input type="submit" value="Create Sausage">
+</form>

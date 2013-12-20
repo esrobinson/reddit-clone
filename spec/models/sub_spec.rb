@@ -1,8 +1,21 @@
+# == Schema Information
+#
+# Table name: subs
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  moderator_id :integer          not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 require 'spec_helper'
 
 describe Sub do
   describe "associations" do
     it { should belong_to(:moderator) }
+    it { should have_many(:sub_links) }
+    it { should have_many(:links) }
   end
 
   describe "name" do

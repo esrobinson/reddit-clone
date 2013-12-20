@@ -2,7 +2,15 @@
 <%= link_to "<- Sandwiches", subs_url %>
 <br><br>
 
+<ul>
+	<% @links.each do |link| %>
+		<li><%= link_to link.title, link.url %></li>
+	<% end %>
+</ul>
+
 <% if is_moderator? %>
 	<%= link_to "Edit Sandwich", edit_sub_url(@sub) %>
 	<%= button_to "Eat Sandwich", sub_url(@sub), :method => :delete %>
 <% end %>
+
+<%= link_to "Create Sausage", new_link_url %>
